@@ -1,0 +1,18 @@
+{
+    "name": "fr.sticmac.eventsystem",
+    "displayName": "Scriptable Object Event System",
+    "version": "0.0.1",
+    "unity": "2019.1",
+    "description": "A cross-scene, easy to use event system through observable scriptable objects and listener scripts.",
+    "author": {
+        "name": "Sticmac",
+        "email": "julien.lemaire@sticmac.fr",
+        "url": "https://sticmac.fr"
+    },
+    "keywords": [
+        "events",
+        "scriptable objects"
+    ],
+    "dependencies": {
+    }
+}
