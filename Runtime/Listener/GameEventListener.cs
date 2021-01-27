@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using UnityEngine.Events;
 
 namespace Sticmac.EventSystem {
@@ -9,7 +10,7 @@ namespace Sticmac.EventSystem {
     {
         [SerializeField] GameEvent Event;
 
-        public UnityEvent Response;
+        public event Action Response;
 
         private void OnEnable() {
             Event.RegisterListener(this);
