@@ -1,0 +1,17 @@
+{
+    "name": "Sticmac.EventSystem.Editor",
+    "references": [
+        "GUID:e05a179a55911e513820169a3b24cd63"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

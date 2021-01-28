@@ -7,7 +7,11 @@ namespace Sticmac.EventSystem {
     public abstract class ParametrizedGameEventListener<T> : AbstractListener
         where T : struct
     {
-        [SerializeField] ParametrizedGameEvent<ParametrizedGameEventListener<T>, T> Event;
+        protected ParametrizedGameEvent<ParametrizedGameEventListener<T>, T> Event;
+
+        #region Event Serialization
+        [SerializeField, HideInInspector] string _eventGuid;
+        #endregion
 
         public event Action<T> OnRaised;
 
@@ -22,5 +26,6 @@ namespace Sticmac.EventSystem {
         public void OnEventRaised(T value) {
             OnRaised?.Invoke(value);
         }
+
     }
 }
