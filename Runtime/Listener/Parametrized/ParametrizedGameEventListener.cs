@@ -1,16 +1,26 @@
 ﻿using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace Sticmac.EventSystem {
-    public abstract class ParametrizedGameEventListener<T> : AbstractListener
+    public abstract class ParametrizedGameEventListener<T> : AbstractListener, ISerializationCallbackReceiver
         where T : struct
     {
         protected ParametrizedGameEvent<ParametrizedGameEventListener<T>, T> Event;
 
         #region Event Serialization
-        [SerializeField, HideInInspector] string _eventGuid;
+        [SerializeField, HideInInspector] ScriptableObject _serializedEvent;
+
+        public void OnBeforeSerialize()
+        {
+            // Nothing to do before serialization
+            // (because _serializedEvent acts already as our serialization)
+        }
+
+        public void OnAfterDeserialize()
+        {
+            // Assign Event value from serialized event
+            Event = _serializedEvent as ParametrizedGameEvent<ParametrizedGameEventListener<T>, T>;
+        }
         #endregion
 
         public event Action<T> OnRaised;
@@ -26,6 +36,5 @@ namespace Sticmac.EventSystem {
         public void OnEventRaised(T value) {
             OnRaised?.Invoke(value);
         }
-
     }
 }

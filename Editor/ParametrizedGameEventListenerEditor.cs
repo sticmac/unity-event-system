@@ -16,18 +16,17 @@ namespace Sticmac.EventSystem {
 
         private SerializedObject _so;
 
-        private SerializedProperty _eventGuidProperty;
+        private SerializedProperty _serializedEventProperty;
 
         private void OnEnable() {
             _so = serializedObject;
-            _eventGuidProperty = _so.FindProperty("_eventGuid");
+            _serializedEventProperty = _so.FindProperty("_serializedEvent");
 
             // Reflection monstuosity to fetch the event's type
             _eventType = _so.targetObject.GetType().GetField("Event", BindingFlags.NonPublic | BindingFlags.Instance).FieldType;
 
             // Fetching asset from serialized GUID
-            string path = AssetDatabase.GUIDToAssetPath(_eventGuidProperty.stringValue);
-            _event = AssetDatabase.LoadAssetAtPath(path, _eventType);
+            _event = _serializedEventProperty.objectReferenceValue;
         }
 
         public override void OnInspectorGUI() {
@@ -46,8 +45,8 @@ namespace Sticmac.EventSystem {
                 string path = AssetDatabase.GetAssetPath(_event);
                 string assetGuid = AssetDatabase.AssetPathToGUID(path);
 
-                // Updates the listener's serialization assetGuid field
-                _eventGuidProperty.stringValue = assetGuid;
+                // Updates the listener's event serialization field
+                _serializedEventProperty.objectReferenceValue = _event;
 
                 _so.ApplyModifiedProperties();
             }
