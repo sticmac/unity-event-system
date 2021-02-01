@@ -8,16 +8,24 @@ namespace Sticmac.EventSystem {
     /// </summary>
     public class GameEventListener : AbstractListener 
     {
-        [SerializeField] GameEvent Event;
+        [SerializeField] GameEvent _event;
+
+        public GameEvent Event { get => _event;
+            set {
+                _event?.UnregisterListener(this);
+                _event = value;
+                _event.RegisterListener(this);
+            }
+        }
 
         public event Action Response;
 
         private void OnEnable() {
-            Event.RegisterListener(this);
+            Event?.RegisterListener(this);
         }
 
         private void OnDisable() {
-            Event.UnregisterListener(this);
+            Event?.UnregisterListener(this);
         }
 
         public void OnEventRaised() {
