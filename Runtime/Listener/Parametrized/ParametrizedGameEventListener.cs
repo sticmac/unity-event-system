@@ -5,7 +5,14 @@ namespace Sticmac.EventSystem {
     public abstract class ParametrizedGameEventListener<T> : AbstractListener, ISerializationCallbackReceiver
         where T : struct
     {
-        protected ParametrizedGameEvent<ParametrizedGameEventListener<T>, T> Event;
+        protected ParametrizedGameEvent<ParametrizedGameEventListener<T>, T> _event;
+        public ParametrizedGameEvent<ParametrizedGameEventListener<T>, T> Event { get => _event;
+            set {
+                _event?.UnregisterListener(this);
+                _event = value;
+                _event?.RegisterListener(this);
+            }
+        }
 
         #region Event Serialization
         [SerializeField, HideInInspector] ScriptableObject _serializedEvent;
@@ -23,18 +30,18 @@ namespace Sticmac.EventSystem {
         }
         #endregion
 
-        public event Action<T> OnRaised;
+        public event Action<T> Response;
 
         private void OnEnable() {
-            Event.RegisterListener(this);
+            Event?.RegisterListener(this);
         }
 
         private void OnDisable() {
-            Event.UnregisterListener(this);
+            Event?.UnregisterListener(this);
         }
 
         public void OnEventRaised(T value) {
-            OnRaised?.Invoke(value);
+            Response?.Invoke(value);
         }
     }
 }
