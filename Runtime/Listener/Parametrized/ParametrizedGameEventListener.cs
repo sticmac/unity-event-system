@@ -3,7 +3,6 @@ using UnityEngine;
 
 namespace Sticmac.EventSystem {
     public abstract class ParametrizedGameEventListener<T> : AbstractListener, ISerializationCallbackReceiver
-        where T : struct
     {
         protected ParametrizedGameEvent<ParametrizedGameEventListener<T>, T> _event;
         public ParametrizedGameEvent<ParametrizedGameEventListener<T>, T> Event { get => _event;

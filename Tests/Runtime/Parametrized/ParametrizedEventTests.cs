@@ -7,7 +7,6 @@ using UnityEngine.TestTools;
 namespace Sticmac.EventSystem
 {
     public abstract class ParametrizedEventTests<T>
-        where T : struct
     {
         protected ParametrizedGameEvent<ParametrizedGameEventListener<T>, T> _gameEvent;
         protected ParametrizedGameEventListener<T> _listener;
