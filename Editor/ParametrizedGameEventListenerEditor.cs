@@ -23,7 +23,7 @@ namespace Sticmac.EventSystem {
             _serializedEventProperty = _so.FindProperty("_serializedEvent");
 
             // Reflection monstuosity to fetch the event's type
-            _eventType = _so.targetObject.GetType().GetField("Event", BindingFlags.NonPublic | BindingFlags.Instance).FieldType;
+            _eventType = _so.targetObject.GetType().GetField("_event", BindingFlags.NonPublic | BindingFlags.Instance).FieldType;
 
             // Fetching asset from serialized GUID
             _event = _serializedEventProperty.objectReferenceValue;
@@ -33,7 +33,7 @@ namespace Sticmac.EventSystem {
             base.OnInspectorGUI();
 
             // Field for ScriptableObject event
-            var e = EditorGUILayout.ObjectField("Event", _event, _eventType, true);
+            var e = EditorGUILayout.ObjectField("Event", _event == null ? new UnityEngine.Object() : _event, _eventType, true);
 
             if (e != _event) { // New value was put in the field, we need to update everything
                 _event = e;
