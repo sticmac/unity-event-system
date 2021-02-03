@@ -6,7 +6,7 @@ namespace Sticmac.EventSystem {
     public class FloatEventTests : ParametrizedEventTests<float>
     {
         protected override void SetupTestParameters(
-          out ParametrizedGameEvent<ParametrizedGameEventListener<float>, float> gameEvent,
+          out ParametrizedGameEvent<float> gameEvent,
           out ParametrizedGameEventListener<float> listener,
           out float value) {
             gameEvent = ScriptableObject.CreateInstance<FloatGameEvent>();

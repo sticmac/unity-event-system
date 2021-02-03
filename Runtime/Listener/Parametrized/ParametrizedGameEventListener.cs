@@ -4,8 +4,8 @@ using UnityEngine;
 namespace Sticmac.EventSystem {
     public abstract class ParametrizedGameEventListener<T> : AbstractListener, ISerializationCallbackReceiver
     {
-        protected ParametrizedGameEvent<ParametrizedGameEventListener<T>, T> _event;
-        public ParametrizedGameEvent<ParametrizedGameEventListener<T>, T> Event { get => _event;
+        protected ParametrizedGameEvent<T> _event;
+        public ParametrizedGameEvent<T> Event { get => _event;
             set {
                 _event?.UnregisterListener(this);
                 _event = value;
@@ -25,7 +25,7 @@ namespace Sticmac.EventSystem {
         public void OnAfterDeserialize()
         {
             // Assign Event value from serialized event
-            Event = _serializedEvent as ParametrizedGameEvent<ParametrizedGameEventListener<T>, T>;
+            Event = _serializedEvent as ParametrizedGameEvent<T>;
         }
         #endregion
 

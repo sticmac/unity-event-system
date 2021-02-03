@@ -3,10 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 
 namespace Sticmac.EventSystem {
-    public class ParametrizedGameEvent<T, U> : AbstractGameEvent<T>
-        where T : ParametrizedGameEventListener<U>
+    public class ParametrizedGameEvent<T> : AbstractGameEvent<ParametrizedGameEventListener<T>>
     {
-        public void Raise(U value) {
+        public void Raise(T value) {
             for(int i = _listeners.Count -1; i >= 0; i--)
                 _listeners[i].OnEventRaised(value);
         }

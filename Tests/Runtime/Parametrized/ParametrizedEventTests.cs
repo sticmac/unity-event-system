@@ -8,7 +8,7 @@ namespace Sticmac.EventSystem
 {
     public abstract class ParametrizedEventTests<T>
     {
-        protected ParametrizedGameEvent<ParametrizedGameEventListener<T>, T> _gameEvent;
+        protected ParametrizedGameEvent<T> _gameEvent;
         protected ParametrizedGameEventListener<T> _listener;
         protected T _v;
 
@@ -18,7 +18,7 @@ namespace Sticmac.EventSystem
         }
 
         protected abstract void SetupTestParameters(
-            out ParametrizedGameEvent<ParametrizedGameEventListener<T>, T> gameEvent,
+            out ParametrizedGameEvent<T> gameEvent,
             out ParametrizedGameEventListener<T> listener,
             out T value);
 

@@ -6,7 +6,7 @@ namespace Sticmac.EventSystem {
     public class Vector3EventTests : ParametrizedEventTests<Vector3>
     {
         protected override void SetupTestParameters(
-          out ParametrizedGameEvent<ParametrizedGameEventListener<Vector3>, Vector3> gameEvent,
+          out ParametrizedGameEvent<Vector3> gameEvent,
           out ParametrizedGameEventListener<Vector3> listener,
           out Vector3 value) {
             gameEvent = ScriptableObject.CreateInstance<Vector3GameEvent>();
