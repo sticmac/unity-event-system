@@ -41,10 +41,6 @@ namespace Sticmac.EventSystem {
                 // Begin serialized object update
                 _so.Update();
 
-                // Fetching event's asset GUID
-                string path = AssetDatabase.GetAssetPath(_event);
-                string assetGuid = AssetDatabase.AssetPathToGUID(path);
-
                 // Updates the listener's event serialization field
                 _serializedEventProperty.objectReferenceValue = _event;
 
