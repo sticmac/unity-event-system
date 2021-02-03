@@ -14,12 +14,13 @@ namespace Sticmac.EventSystem
 
         [SetUp]
         public void Setup() {
-            SetupEventAndListener(out _gameEvent, out _listener);
+            SetupTestParameters(out _gameEvent, out _listener, out _v);
         }
 
-        protected abstract void SetupEventAndListener(
+        protected abstract void SetupTestParameters(
             out ParametrizedGameEvent<ParametrizedGameEventListener<T>, T> gameEvent,
-            out ParametrizedGameEventListener<T> listener);
+            out ParametrizedGameEventListener<T> listener,
+            out T value);
 
         [Test]
         public void EventIsRaised() {
@@ -33,7 +34,7 @@ namespace Sticmac.EventSystem
 
         [Test]
         public void EventIsRaisedWithGoodValue() {
-            T val = default;
+            T val = default(T);
             _listener.Response += (T param) => val = param;
 
             _gameEvent.Raise(_v);
