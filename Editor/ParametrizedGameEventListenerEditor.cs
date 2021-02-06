@@ -23,7 +23,8 @@ namespace Sticmac.EventSystem {
             _serializedEventProperty = _so.FindProperty("_serializedEvent");
 
             // Reflection monstuosity to fetch the event's type
-            _eventType = _so.targetObject.GetType().GetField("_event", BindingFlags.NonPublic | BindingFlags.Instance).FieldType;
+            Type type = _so.targetObject.GetType().GetField("_event", BindingFlags.NonPublic | BindingFlags.Instance).FieldType;
+            _eventType = Assembly.GetAssembly(type).GetTypes().Where(t => t.IsClass && !t.IsAbstract && t.IsSubclassOf(type)).First();
 
             // Fetching asset from serialized GUID
             _event = _serializedEventProperty.objectReferenceValue;
