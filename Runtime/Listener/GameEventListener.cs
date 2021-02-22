@@ -24,9 +24,6 @@ namespace Sticmac.EventSystem {
 
         private void OnEnable() {
             Event?.RegisterListener(this);
-            if (UnityEventResponse == null) {
-                UnityEventResponse = new UnityEvent();
-            }
         }
 
         private void OnDisable() {

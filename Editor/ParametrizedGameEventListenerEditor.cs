@@ -6,20 +6,18 @@ using UnityEditor;
 
 namespace Sticmac.EventSystem {
     [CustomEditor(typeof(ParametrizedGameEventListener<>), true)]
-    public class ParametrizedGameEventListenerEditor : Editor {
+    public class ParametrizedGameEventListenerEditor : AbstractGameEventListenerEditor {
+        protected SerializedProperty _serializedEventProperty;
+
         /// <summary>
         /// Event the listener listens to, stored as an Object
         /// </summary>
-        private UnityEngine.Object _event = null;
+        protected UnityEngine.Object _event = null;
 
-        private Type _eventType;
+        protected Type _eventType;
 
-        private SerializedObject _so;
-
-        private SerializedProperty _serializedEventProperty;
-
-        private void OnEnable() {
-            _so = serializedObject;
+        protected override void OnEnable() {
+            base.OnEnable();
             _serializedEventProperty = _so.FindProperty("_serializedEvent");
 
             // Reflection monstuosity to fetch the event's type
@@ -30,23 +28,13 @@ namespace Sticmac.EventSystem {
             _event = _serializedEventProperty.objectReferenceValue;
         }
 
-        public override void OnInspectorGUI() {
-            base.OnInspectorGUI();
-
+        public override void DrawEventEditor()
+        {
             // Field for ScriptableObject event
-            var e = EditorGUILayout.ObjectField("Event", _event == null ? new UnityEngine.Object() : _event, _eventType, true);
+            _event = EditorGUILayout.ObjectField("Event", _event == null ? new UnityEngine.Object() : _event, _eventType, true);
 
-            if (e != _event) { // New value was put in the field, we need to update everything
-                _event = e;
-
-                // Begin serialized object update
-                _so.Update();
-
-                // Updates the listener's event serialization field
-                _serializedEventProperty.objectReferenceValue = _event;
-
-                _so.ApplyModifiedProperties();
-            }
+            // Updates the listener's event serialization field
+            _serializedEventProperty.objectReferenceValue = _event;
         }
     }
 }
