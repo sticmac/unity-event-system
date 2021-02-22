@@ -22,6 +22,7 @@ namespace Sticmac.EventSystem
         [Test]
         public void GameEventIsRaisedTest()
         {
+            _listener.ResponseActivationMode = AbstractListener.ResponseMode.InvokeCSharpEvents;
             bool called = false;
             _listener.Response += () => called = true;
 

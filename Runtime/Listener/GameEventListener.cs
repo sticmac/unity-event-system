@@ -20,8 +20,13 @@ namespace Sticmac.EventSystem {
 
         public event Action Response;
 
+        public UnityEvent UnityEventResponse;
+
         private void OnEnable() {
             Event?.RegisterListener(this);
+            if (UnityEventResponse == null) {
+                UnityEventResponse = new UnityEvent();
+            }
         }
 
         private void OnDisable() {
@@ -29,7 +34,14 @@ namespace Sticmac.EventSystem {
         }
 
         public void OnEventRaised() {
-            Response?.Invoke();
+            switch (_responseActivationMode) {
+                case ResponseMode.InvokeUnityEvents:
+                    UnityEventResponse.Invoke();
+                    break;
+                case ResponseMode.InvokeCSharpEvents:
+                    Response?.Invoke();
+                    break;
+            }
         }
     }
 }

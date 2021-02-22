@@ -5,14 +5,14 @@ using UnityEngine;
 using UnityEngine.Events;
 
 namespace Sticmac.EventSystem {
-    public class FloatGameEventListener : ParametrizedGameEventListener<float>
+    public class GameObjectGameEventListener : ParametrizedGameEventListener<GameObject>
     {
         [Serializable]
-        public class UnityEvent : UnityEvent<float> {}
+        public class UnityEvent : UnityEvent<GameObject> {}
 
         public UnityEvent UnityEventResponse;
 
-        protected override void InvokeUnityEventResponse(float value)
+        protected override void InvokeUnityEventResponse(GameObject value)
         {
             UnityEventResponse.Invoke(value);
         }

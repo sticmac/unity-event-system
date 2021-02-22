@@ -24,6 +24,7 @@ namespace Sticmac.EventSystem
 
         [Test]
         public void EventIsRaised() {
+            _listener.ResponseActivationMode = AbstractListener.ResponseMode.InvokeCSharpEvents;
             bool called = false;
             _listener.Response += (T param) => called = true;
 
@@ -34,6 +35,7 @@ namespace Sticmac.EventSystem
 
         [Test]
         public void EventIsRaisedWithGoodValue() {
+            _listener.ResponseActivationMode = AbstractListener.ResponseMode.InvokeCSharpEvents;
             T val = default(T);
             _listener.Response += (T param) => val = param;
 

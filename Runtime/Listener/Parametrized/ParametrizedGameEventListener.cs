@@ -1,5 +1,6 @@
 ﻿using System;
 using UnityEngine;
+using UnityEngine.Events;
 
 namespace Sticmac.EventSystem {
     public abstract class ParametrizedGameEventListener<T> : AbstractListener, ISerializationCallbackReceiver
@@ -40,7 +41,16 @@ namespace Sticmac.EventSystem {
         }
 
         public void OnEventRaised(T value) {
-            Response?.Invoke(value);
+            switch (_responseActivationMode) {
+                case ResponseMode.InvokeUnityEvents:
+                    InvokeUnityEventResponse(value);
+                    break;
+                case ResponseMode.InvokeCSharpEvents:
+                    Response?.Invoke(value);
+                    break;
+            }
         }
+
+        protected abstract void InvokeUnityEventResponse(T value);
     }
 }
