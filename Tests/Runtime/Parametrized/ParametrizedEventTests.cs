@@ -34,7 +34,7 @@ namespace Sticmac.EventSystem
         }
 
         [Test]
-        public void GaeEventShouldRaiseListenerWithGoodValueWithCSharpEvents() {
+        public void GameEventShouldRaiseListenerWithGoodValueWithCSharpEvents() {
             _listener.ResponseActivationMode = AbstractListener.ResponseMode.InvokeCSharpEvents;
             T val = default(T);
             _listener.Response += (T param) => val = param;
