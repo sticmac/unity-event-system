@@ -24,7 +24,7 @@ namespace Sticmac.EventSystem {
         }
 
         #region Event Serialization
-        [SerializeField, HideInInspector] ScriptableObject _serializedEvent;
+        [SerializeField, HideInInspector] ScriptableObject _serializedEvent = null;
 
         public void OnBeforeSerialize()
         {
