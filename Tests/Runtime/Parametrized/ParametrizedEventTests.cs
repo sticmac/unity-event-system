@@ -23,25 +23,69 @@ namespace Sticmac.EventSystem
             out T value);
 
         [Test]
-        public void EventIsRaised() {
+        public void GameEventShouldRaiseListenerWithCSharpEvents() {
             _listener.ResponseActivationMode = AbstractListener.ResponseMode.InvokeCSharpEvents;
-            bool called = false;
-            _listener.Response += (T param) => called = true;
+            int calledCount = 0;
+            _listener.Response += (T param) => calledCount++;
 
             _gameEvent.Raise(_v);
 
-            Assert.True(called);
+            Assert.That(calledCount, Is.EqualTo(1));
         }
 
         [Test]
-        public void EventIsRaisedWithGoodValue() {
+        public void GaeEventShouldRaiseListenerWithGoodValueWithCSharpEvents() {
             _listener.ResponseActivationMode = AbstractListener.ResponseMode.InvokeCSharpEvents;
             T val = default(T);
             _listener.Response += (T param) => val = param;
 
             _gameEvent.Raise(_v);
 
-            Assert.AreEqual(_v, val);
+            Assert.That(val, Is.EqualTo(_v));
+        }
+
+        [Test]
+        public void GameEventShouldRaiseListenerWithUnityEvents() {
+            _listener.ResponseActivationMode = AbstractListener.ResponseMode.InvokeUnityEvents;
+            int calledCount = 0;
+            _listener.UnityEventResponse += (T param) => calledCount++;
+
+            _gameEvent.Raise(_v);
+
+            Assert.That(calledCount, Is.EqualTo(1));
+        }
+
+        [Test]
+        public void GameEventShouldRaiseListenerWithGoodValueWithUnityEvents() {
+            _listener.ResponseActivationMode = AbstractListener.ResponseMode.InvokeUnityEvents;
+            T val = default(T);
+            _listener.UnityEventResponse += (T param) => val = param;
+
+            _gameEvent.Raise(_v);
+
+            Assert.That(val, Is.EqualTo(_v));
+        }
+
+        [Test]
+        public void GameEventShouldNotRaiseListenerWithUnityEventsWhenWrongModeIsUsed() {
+            _listener.ResponseActivationMode = AbstractListener.ResponseMode.InvokeCSharpEvents;
+            int calledCount = 0;
+            _listener.UnityEventResponse += (T param) => calledCount++;
+
+            _gameEvent.Raise(_v);
+
+            Assert.That(calledCount, Is.EqualTo(0));
+        }
+        
+        [Test]
+        public void GameEventShouldNotRaiseListenerWithCSharpEventsWhenWrongModeIsUsed() {
+            _listener.ResponseActivationMode = AbstractListener.ResponseMode.InvokeUnityEvents;
+            int calledCount = 0;
+            _listener.Response += (T param) => calledCount++;
+
+            _gameEvent.Raise(_v);
+
+            Assert.That(calledCount, Is.EqualTo(0));
         }
     }
 }

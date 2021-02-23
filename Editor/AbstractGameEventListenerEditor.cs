@@ -13,7 +13,7 @@ namespace Sticmac.EventSystem {
             _so = serializedObject;
 
             _responseModeProperty = _so.FindProperty("_responseActivationMode");
-            _unityEventResponseProperty = _so.FindProperty("UnityEventResponse");
+            _unityEventResponseProperty = _so.FindProperty("_unityEventResponse");
         }
 
 

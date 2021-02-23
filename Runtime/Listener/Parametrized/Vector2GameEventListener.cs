@@ -8,13 +8,17 @@ namespace Sticmac.EventSystem {
     public class Vector2GameEventListener : ParametrizedGameEventListener<Vector2>
     {
         [Serializable]
-        public class UnityEvent : UnityEvent<Vector2> {}
+        private class UnityEvent : UnityEvent<Vector2> {}
 
-        public UnityEvent UnityEventResponse;
+        [SerializeField] UnityEvent _unityEventResponse;
 
-        protected override void InvokeUnityEventResponse(Vector2 value)
-        {
-            UnityEventResponse.Invoke(value);
+        private void Awake() {
+            if (_unityEventResponse == null) _unityEventResponse = new UnityEvent();
         }
+
+        protected override void AddListener(UnityAction<Vector2> action) => _unityEventResponse.AddListener(action);
+        protected override void RemoveListener(UnityAction<Vector2> action) => _unityEventResponse.RemoveListener(action);
+
+        protected override void InvokeUnityEventResponse(Vector2 value) => _unityEventResponse.Invoke(value);
     }
 }

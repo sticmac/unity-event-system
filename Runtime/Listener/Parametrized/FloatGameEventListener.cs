@@ -8,13 +8,17 @@ namespace Sticmac.EventSystem {
     public class FloatGameEventListener : ParametrizedGameEventListener<float>
     {
         [Serializable]
-        public class UnityEvent : UnityEvent<float> {}
+        private class UnityEvent : UnityEvent<float> {}
 
-        public UnityEvent UnityEventResponse;
+        [SerializeField] UnityEvent _unityEventResponse;
 
-        protected override void InvokeUnityEventResponse(float value)
-        {
-            UnityEventResponse.Invoke(value);
+        private void Awake() {
+            if (_unityEventResponse == null) _unityEventResponse = new UnityEvent();
         }
+
+        protected override void AddListener(UnityAction<float> action) => _unityEventResponse.AddListener(action);
+        protected override void RemoveListener(UnityAction<float> action) => _unityEventResponse.RemoveListener(action);
+
+        protected override void InvokeUnityEventResponse(float value) => _unityEventResponse.Invoke(value);
     }
 }

@@ -18,9 +18,19 @@ namespace Sticmac.EventSystem {
             }
         }
 
+        // C# Event
         public event Action Response;
 
-        public UnityEvent UnityEventResponse;
+        // Unity Event
+        public event UnityAction UnityEventResponse {
+            add => _unityEventResponse.AddListener(value);
+            remove => _unityEventResponse.RemoveListener(value);
+        }
+        [SerializeField] UnityEvent _unityEventResponse;
+
+        private void Awake() {
+            if (_unityEventResponse == null) _unityEventResponse = new UnityEvent();
+        }
 
         private void OnEnable() {
             Event?.RegisterListener(this);
@@ -33,7 +43,7 @@ namespace Sticmac.EventSystem {
         public void OnEventRaised() {
             switch (_responseActivationMode) {
                 case ResponseMode.InvokeUnityEvents:
-                    UnityEventResponse.Invoke();
+                    _unityEventResponse.Invoke();
                     break;
                 case ResponseMode.InvokeCSharpEvents:
                     Response?.Invoke();

@@ -20,15 +20,51 @@ namespace Sticmac.EventSystem
         }
 
         [Test]
-        public void GameEventIsRaisedTest()
+        public void GameEventShouldRaiseListenerWithCSharpEvents()
         {
             _listener.ResponseActivationMode = AbstractListener.ResponseMode.InvokeCSharpEvents;
-            bool called = false;
-            _listener.Response += () => called = true;
+            int calledCount = 0;
+            _listener.Response += () => calledCount++;
 
             _gameEvent.Raise();
 
-            Assert.True(called);
+            Assert.That(calledCount, Is.EqualTo(1));
+        }
+
+        [Test]
+        public void GameEventShouldRaiseListenerWithUnityEvents()
+        {
+            _listener.ResponseActivationMode = AbstractListener.ResponseMode.InvokeUnityEvents;
+            int calledCount = 0;
+            _listener.UnityEventResponse += () => calledCount++;
+
+            _gameEvent.Raise();
+
+            Assert.That(calledCount, Is.EqualTo(1));
+        }
+
+        [Test]
+        public void GameEventShouldNotRaiseListenerWithCSharpEventsWhenWrongModeIsSelected()
+        {
+            _listener.ResponseActivationMode = AbstractListener.ResponseMode.InvokeCSharpEvents;
+            int calledCount = 0;
+            _listener.UnityEventResponse += () => calledCount++;
+
+            _gameEvent.Raise();
+
+            Assert.That(calledCount, Is.EqualTo(0));
+        }
+
+        [Test]
+        public void GameEventShouldNotRaiseListenerWithUnityEventsWhenWrongModeIsSelected()
+        {
+            _listener.ResponseActivationMode = AbstractListener.ResponseMode.InvokeUnityEvents;
+            int calledCount = 0;
+            _listener.Response += () => calledCount++;
+
+            _gameEvent.Raise();
+
+            Assert.That(calledCount, Is.EqualTo(0));
         }
     }
 }

@@ -14,6 +14,15 @@ namespace Sticmac.EventSystem {
             }
         }
 
+        // C# Event
+        public event Action<T> Response;
+
+        // Unity Event
+        public event UnityAction<T> UnityEventResponse {
+            add => AddListener(value);
+            remove => RemoveListener(value);
+        }
+
         #region Event Serialization
         [SerializeField, HideInInspector] ScriptableObject _serializedEvent;
 
@@ -30,13 +39,11 @@ namespace Sticmac.EventSystem {
         }
         #endregion
 
-        public event Action<T> Response;
-
-        private void OnEnable() {
+        protected virtual void OnEnable() {
             Event?.RegisterListener(this);
         }
 
-        private void OnDisable() {
+        protected virtual void OnDisable() {
             Event?.UnregisterListener(this);
         }
 
@@ -52,5 +59,7 @@ namespace Sticmac.EventSystem {
         }
 
         protected abstract void InvokeUnityEventResponse(T value);
+        protected abstract void AddListener(UnityAction<T> action);
+        protected abstract void RemoveListener(UnityAction<T> action);
     }
 }
