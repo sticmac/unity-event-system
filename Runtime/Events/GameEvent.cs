@@ -11,14 +11,12 @@ namespace Sticmac.EventSystem {
     [CreateAssetMenu(fileName = "Game Event", menuName = "Event System/Game Event", order = 0)]
     public class GameEvent : AbstractGameEvent
     {
-        protected List<GameEventListener> _listeners = new List<GameEventListener>();
+        protected HashSet<GameEventListener> _listeners = new HashSet<GameEventListener>();
 
-        public ReadOnlyCollection<GameEventListener> Listeners => _listeners.AsReadOnly();
+        public IReadOnlyCollection<GameEventListener> Listeners => _listeners;
 
-        public void RegisterListener(GameEventListener listener) {
-            if (!_listeners.Contains(listener)) {
-                _listeners.Add(listener);
-            }
+        public bool RegisterListener(GameEventListener listener) {
+            return _listeners.Add(listener);
         }
 
         public void UnregisterListener(GameEventListener listener) {
@@ -26,8 +24,9 @@ namespace Sticmac.EventSystem {
         }
         
         public void Raise() {
-            for(int i = _listeners.Count -1; i >= 0; i--)
-                _listeners[i].OnEventRaised();
+            foreach (GameEventListener listener in _listeners) {
+                listener.OnEventRaised();
+            }
         }
     }
 }

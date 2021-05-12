@@ -6,14 +6,12 @@ using UnityEngine;
 namespace Sticmac.EventSystem {
     public class ParametrizedGameEvent<T> : AbstractGameEvent
     {
-        protected List<ParametrizedGameEventListener<T>> _listeners = new List<ParametrizedGameEventListener<T>>();
+        protected HashSet<ParametrizedGameEventListener<T>> _listeners = new HashSet<ParametrizedGameEventListener<T>>();
 
-        public ReadOnlyCollection<ParametrizedGameEventListener<T>> Listeners => _listeners.AsReadOnly();
+        public IReadOnlyCollection<ParametrizedGameEventListener<T>> Listeners => _listeners;
 
-        public void RegisterListener(ParametrizedGameEventListener<T> listener) {
-            if (!_listeners.Contains(listener)) {
-                _listeners.Add(listener);
-            }
+        public bool RegisterListener(ParametrizedGameEventListener<T> listener) {
+            return _listeners.Add(listener);
         }
 
         public void UnregisterListener(ParametrizedGameEventListener<T> listener) {
@@ -21,8 +19,9 @@ namespace Sticmac.EventSystem {
         }
         
         public void Raise(T value) {
-            for(int i = _listeners.Count -1; i >= 0; i--)
-                _listeners[i].OnEventRaised(value);
+            foreach (ParametrizedGameEventListener<T> listener in _listeners) {
+                listener.OnEventRaised(value);
+            }
         }
     }
 }
