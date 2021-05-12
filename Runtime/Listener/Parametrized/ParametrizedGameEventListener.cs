@@ -35,7 +35,7 @@ namespace Sticmac.EventSystem {
         public void OnAfterDeserialize()
         {
             // Assign Event value from serialized event
-            Event = _serializedEvent as ParametrizedGameEvent<T>;
+            _event = _serializedEvent as ParametrizedGameEvent<T>;
         }
         #endregion
 
