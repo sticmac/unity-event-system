@@ -21,7 +21,14 @@ namespace Sticmac.EventSystem
             out ParametrizedGameEvent<T> gameEvent,
             out ParametrizedGameEventListener<T> listener,
             out T value);
+        
+        [Test]
+        public void ListenerShouldSubscribeOnlyOnceTest() {
+            _gameEvent.RegisterListener(_listener);
 
+            Assert.That(_gameEvent.Listeners, Is.Unique);
+        }
+        
         [Test]
         public void GameEventShouldRaiseListenerWithCSharpEvents() {
             _listener.ResponseActivationMode = AbstractListener.ResponseMode.InvokeCSharpEvents;

@@ -17,6 +17,13 @@ namespace Sticmac.EventSystem
             GameObject go = new GameObject();
             _listener = go.AddComponent<GameEventListener>();
             _listener.Event = _gameEvent;
+        }        
+
+        [Test]
+        public void ListenerShouldSubscribeOnlyOnceTest() {
+            _gameEvent.RegisterListener(_listener);
+
+            Assert.That(_gameEvent.Listeners, Is.Unique);
         }
 
         [Test]

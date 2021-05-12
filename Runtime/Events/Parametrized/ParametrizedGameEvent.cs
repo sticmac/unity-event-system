@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using UnityEngine;
 
 namespace Sticmac.EventSystem {
@@ -7,8 +8,12 @@ namespace Sticmac.EventSystem {
     {
         protected List<ParametrizedGameEventListener<T>> _listeners = new List<ParametrizedGameEventListener<T>>();
 
+        public ReadOnlyCollection<ParametrizedGameEventListener<T>> Listeners => _listeners.AsReadOnly();
+
         public void RegisterListener(ParametrizedGameEventListener<T> listener) {
-            _listeners.Add(listener);
+            if (!_listeners.Contains(listener)) {
+                _listeners.Add(listener);
+            }
         }
 
         public void UnregisterListener(ParametrizedGameEventListener<T> listener) {
